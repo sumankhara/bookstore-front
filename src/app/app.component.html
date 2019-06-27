@@ -7,10 +7,10 @@
   <div class="collapse navbar-collapse" id="navbarsExampleDefault">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item active">
-        <a class="nav-link" href="#">List <span class="sr-only">(current)</span></a>
+        <a class="nav-link" [routerLink]="['/book-list']">List <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Create</a>
+        <a class="nav-link" [routerLink]="['/book-form']">Create</a>
       </li>
     </ul>
     <form class="form-inline my-2 my-lg-0">
@@ -21,10 +21,8 @@
 </nav>
 <div class="container">
   <div class="jumbotron">
-    <bs-book-form></bs-book-form>
-    <bs-book-detail></bs-book-detail>
-    <bs-book-list></bs-book-list>
+      <router-outlet></router-outlet>
   </div>
 </div>
 
-<router-outlet></router-outlet>
+
