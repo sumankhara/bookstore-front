@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Book, BookService } from '../service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'bs-book-form',
@@ -7,18 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BookFormComponent implements OnInit {
 
-  book = {
-    title: "dummy title 1",
-    description: "dummy description",
-    unitCost: "123",
-    isbn: "123-456-7890",
-    nbOfPages: "456",
-    language: "English",
-    imageURL: "http://ecx.images-amazon.com/images/I/51bjnhlGbeL._SL160_.jpg"
-  }
-  constructor() { }
+  book: Book = new Book();
+  constructor(private router: Router, private bookService: BookService) { }
 
   ngOnInit() {
   }
 
+  create() {
+    this.bookService.createBook(this.book)
+      .finally(() => this.router.navigate(['/book-list']))
+      .subscribe();
+  }
 }

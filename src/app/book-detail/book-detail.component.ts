@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Book, BookService } from '../service';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/finally';
 
 @Component({
   selector: 'bs-book-detail',
@@ -8,20 +11,19 @@ import { Router } from '@angular/router';
 })
 export class BookDetailComponent implements OnInit {
 
-  book = {
-    title: "dummy title 1",
-    description: "dummy description",
-    unitCost: "123",
-    isbn: "123-456-7890",
-    nbOfPages: "456",
-    language: "English"
-  }
-  constructor(private router: Router) { }
+  book: Book = new Book();
+  constructor(private router: Router, private bookService: BookService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.params
+      .map(params => params['bookId'])
+      .switchMap(id => this.bookService.getBook(id))
+      .subscribe(book => this.book = book);
   }
 
   delete() {
-    this.router.navigate(['/book-list']);
+    this.bookService.deleteBook(this.book.id)
+      .finally(() => this.router.navigate(['/book-list']))
+      .subscribe();
   }
 }
